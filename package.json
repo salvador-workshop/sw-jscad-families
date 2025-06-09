@@ -1,11 +1,11 @@
 {
-  "name": "sw-jscad",
-  "version": "0.5.6",
-  "description": "Salvador Workshop's JSCAD utilities and toolkit",
+  "name": "sw-jscad-famlies",
+  "version": "0.0.1",
+  "description": "2D/3D model families for Salvador Workshop's JSCAD utilities and toolkit.",
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/salvador-workshop/sw-jscad.git"
+    "url": "git+https://github.com/salvador-workshop/sw-jscad-families.git"
   },
   "main": "src/index.js",
   "scripts": {
