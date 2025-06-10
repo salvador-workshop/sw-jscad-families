@@ -5,9 +5,9 @@
  * @namespace families
  */
 
-const init = ({ lib }) => {
+const init = ({ lib, swLib }) => {
     const families = {
-        trimAranea: require('./trim-aranea').init({ lib }),
+        trimAranea: require('./trim-aranea').init({ lib, swLib }),
     }
 
     return families;
