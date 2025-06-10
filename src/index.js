@@ -3,11 +3,11 @@
 const familiesModule = require('./families');
 
 const init = ({ lib, swLib }) => {
-    const swJscad = {
+    const swJscadFamilies = {
         families: familiesModule.init({ lib, swLib }),
     }
 
-    return swJscad;
+    return swJscadFamilies;
 }
 
 module.exports = { init };
