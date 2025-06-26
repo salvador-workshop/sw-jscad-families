@@ -212,8 +212,6 @@ const trimFamilyAranea = ({ lib, swLib }) => {
         }
         levelPoints[`lHalf`] = unitHeight / 2;
 
-        console.log(levelPoints, thicknessPoints, ornamentPoints);
-
         const controlPoints = {};
 
         const getPointsForLevel = (levelPt) => {
@@ -230,8 +228,6 @@ const trimFamilyAranea = ({ lib, swLib }) => {
         for (const [ptName, ptValue] of Object.entries(ornamentPoints)) {
             controlPoints[ptName] = getPointsForLevel(ptValue);
         }
-
-        console.log(controlPoints);
 
         const crown = {
             extraSmall: center({}, extraSmall({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
