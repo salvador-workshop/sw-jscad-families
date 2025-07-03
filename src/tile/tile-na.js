@@ -2,15 +2,16 @@
 
 /**
  * ...
- * @namespace families.tileNorthAmerica
+ * @namespace families.tile.northAmerica
  */
 
 const tileNorthAmerica = ({ lib, swLib }) => {
 
-    const thing = null;
+    const { tiles } = swLib.core.standards;
+    console.log(tiles)
 
     return {
-        thing,
+        tiles,
     }
 }
 

@@ -2,15 +2,16 @@
 
 /**
  * ...
- * @namespace families.lumberNorthAmerica
+ * @namespace families.lumber.northAmerica
  */
 
 const lumberNorthAmerica = ({ lib, swLib }) => {
 
-    const thing = null;
+    const { lumber } = swLib.core.standards;
+    console.log(lumber)
 
     return {
-        thing,
+        lumber,
     }
 }
 

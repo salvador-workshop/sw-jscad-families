@@ -2,15 +2,16 @@
 
 /**
  * ...
- * @namespace families.brickNorthAmerica
+ * @namespace families.brick.northAmerica
  */
 
 const brickNorthAmerica = ({ lib, swLib }) => {
 
-    const thing = null;
+    const { masonry } = swLib.core.standards;
+    console.log(masonry)
 
     return {
-        thing,
+        masonry,
     }
 }
 
