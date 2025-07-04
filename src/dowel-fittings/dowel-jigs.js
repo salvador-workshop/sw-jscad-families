@@ -49,6 +49,7 @@ const dowelJigs = ({ lib, swLib }) => {
         outSpecs.holderHeight = initSpecs.dowelBundleHeight * initSpecs.jigSideHeightFactor + initSpecs.baseMargin
         outSpecs.holderWidth = 2 * initSpecs.sideMargin + initSpecs.dowelBundleWidth
         outSpecs.holderDepth = outSpecs.holderWidth * initSpecs.jigSideHeightFactor
+        outSpecs.holderDepthCompact = outSpecs.holderDepth * initSpecs.jigSideHeightFactor
 
         outSpecs.holderCutouts = {
             depth: outSpecs.holderDepth * 1.5,
@@ -57,26 +58,26 @@ const dowelJigs = ({ lib, swLib }) => {
 
         switch (outSpecs.pattern) {
             case 'tri':
-                outSpecs.holderCutouts.upperWidth = jigSpecs.diam * 2
-                outSpecs.holderCutouts.lowerWidth = jigSpecs.diam
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam
                 break;
             case 'rect2x2':
-                outSpecs.holderCutouts.upperWidth = jigSpecs.diam * 2
-                outSpecs.holderCutouts.lowerWidth = jigSpecs.diam * 2
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
                 break;
             case 'rect2x3':
-                outSpecs.holderCutouts.upperWidth = jigSpecs.diam * 2
-                outSpecs.holderCutouts.lowerWidth = jigSpecs.diam * 2
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
                 break;
             case 'hex':
-                outSpecs.holderCutouts.upperWidth = jigSpecs.diam * 2
-                outSpecs.holderCutouts.upperEdgeWidth = jigSpecs.diam * 3
-                outSpecs.holderCutouts.lowerWidth = jigSpecs.diam * 2
-                outSpecs.holderCutouts.lowerEdgeWidth = jigSpecs.diam * 3
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.upperEdgeWidth = initSpecs.diam * 3
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.lowerEdgeWidth = initSpecs.diam * 3
                 break;
             default:
-                outSpecs.holderCutouts.upperWidth = jigSpecs.diam
-                outSpecs.holderCutouts.lowerWidth = jigSpecs.diam
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam
         }
 
         return outSpecs
@@ -92,27 +93,118 @@ const dowelJigs = ({ lib, swLib }) => {
         });
     }
 
-    const dowelJigHolderBlank = (jigSpecs) => {
-        return cuboid({
+    const dowelJigHolderBlanks = (jigSpecs) => {
+        const regular = cuboid({
             size: [
                 jigSpecs.holderWidth,
                 jigSpecs.holderDepth,
                 jigSpecs.holderHeight,
             ]
         });
+
+        const compact = cuboid({
+            size: [
+                jigSpecs.holderWidth,
+                jigSpecs.holderDepthCompact,
+                jigSpecs.holderHeight,
+            ]
+        });
+
+        return {
+            regular,
+            compact
+        }
+    }
+
+    const dowelJigHolderCutouts = (jigSpecs) => {
+        let upper = null;
+        let lower = null;
+
+
+        if (jigSpecs.pattern === 'hex') {
+            const cutoutHeights = {
+                base: jigSpecs.diam * jigSpecs.jigSideHeightFactor,
+            }
+            cutoutHeights.edge = jigSpecs.holderCutouts.height - cutoutHeights.base
+
+            const upper1 = cuboid({
+                size: [
+                    jigSpecs.holderCutouts.upperWidth,
+                    jigSpecs.holderCutouts.depth,
+                    cutoutHeights.base,
+                ]
+            })
+            const upper2 = cuboid({
+                size: [
+                    jigSpecs.holderCutouts.upperEdgeWidth,
+                    jigSpecs.holderCutouts.depth,
+                    cutoutHeights.edge,
+                ]
+            })
+            upper = union(upper1, upper2)
+
+            const lower1 = cuboid({
+                size: [
+                    jigSpecs.holderCutouts.lowerWidth,
+                    jigSpecs.holderCutouts.depth,
+                    cutoutHeights.base,
+                ]
+            })
+            const lower2 = cuboid({
+                size: [
+                    jigSpecs.holderCutouts.lowerEdgeWidth,
+                    jigSpecs.holderCutouts.depth,
+                    cutoutHeights.edge,
+                ]
+            })
+            lower = union(lower1, lower2)
+        } else {
+            upper = cuboid({
+                size: [
+                    jigSpecs.holderCutouts.upperWidth,
+                    jigSpecs.holderCutouts.depth,
+                    jigSpecs.holderCutouts.height,
+                ]
+            })
+            lower = cuboid({
+                size: [
+                    jigSpecs.holderCutouts.lowerWidth,
+                    jigSpecs.holderCutouts.depth,
+                    jigSpecs.holderCutouts.height,
+                ]
+            })
+        }
+
+        return {
+            upper,
+            lower,
+        };
     }
 
     const dowelJigHolders = (jigSpecs) => {
-        const holder = dowelJigHolderBlank(jigSpecs);
+        const holders = dowelJigHolderBlanks(jigSpecs);
         const basePlate = dowelJigBasePlate(jigSpecs);
+        const cutouts = dowelJigHolderCutouts(jigSpecs)
 
-        const upper = null;
+        const upper = union(
+            basePlate,
+            subtract(holders.regular, cutouts.upper)
+        );
 
-        const upperCompact = null;
+        const upperCompact = union(
+            basePlate,
+            subtract(holders.compact, cutouts.upper)
+        );
 
-        const lower = null;
+        const lower = union(
+            basePlate,
+            subtract(holders.regular, cutouts.lower)
+        );
 
-        const lowerCompact = null;
+        const lowerCompact = union(
+            basePlate,
+            subtract(holders.compact, cutouts.lower)
+        );
 
         return {
             upper,
