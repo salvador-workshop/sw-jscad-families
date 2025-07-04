@@ -11,7 +11,8 @@
  * @returns ...
  */
 const dowelJigs = ({ lib, swLib }) => {
-    const { rectangle } = lib.primitives;
+    const { rectangle, cuboid } = lib.primitives;
+    const { union, subtract } = lib.booleans;
 
     const { superPrimitives } = swLib.utils;
     const { maths } = swLib.core
@@ -89,7 +90,11 @@ const dowelJigs = ({ lib, swLib }) => {
                 2 * jigSpecs.sideMargin + jigSpecs.holderWidth,
                 2 * jigSpecs.sideMargin + jigSpecs.holderDepth,
                 jigSpecs.basePlateThickness,
-            ]
+            ],
+            radius: 3,
+            segments: 8,
+            edgeMargin: jigSpecs.basePlateThickness,
+            patternMode: 'fill'
         });
     }
 
@@ -241,7 +246,7 @@ const dowelJigs = ({ lib, swLib }) => {
             dowelBundleHeight: dowelDiam + (dowelDiam * EQUI_TRIANGLE_HEIGHT_FACTOR),
             dowelBundleWidth: dowelDiam * 2,
         }
-        const jigSpecs = completeJigSpecs({ jigSpecs: initSpecs });
+        const jigSpecs = completeJigSpecs({ initSpecs });
         const jigHolders = dowelJigHolders(jigSpecs)
 
         return {
@@ -259,7 +264,7 @@ const dowelJigs = ({ lib, swLib }) => {
             dowelBundleHeight: dowelDiam * 2,
             dowelBundleWidth: dowelDiam * 2,
         }
-        const jigSpecs = completeJigSpecs({ jigSpecs: initSpecs });
+        const jigSpecs = completeJigSpecs({ initSpecs });
         const jigHolders = dowelJigHolders(jigSpecs)
 
         return {
@@ -277,7 +282,7 @@ const dowelJigs = ({ lib, swLib }) => {
             dowelBundleHeight: dowelDiam * 2,
             dowelBundleWidth: dowelDiam * 3,
         }
-        const jigSpecs = completeJigSpecs({ jigSpecs: initSpecs });
+        const jigSpecs = completeJigSpecs({ initSpecs });
         const jigHolders = dowelJigHolders(jigSpecs)
 
         return {
@@ -295,7 +300,7 @@ const dowelJigs = ({ lib, swLib }) => {
             dowelBundleHeight: dowelDiam + (dowelDiam * EQUI_TRIANGLE_HEIGHT_FACTOR * 2),
             dowelBundleWidth: dowelDiam * 3,
         }
-        const jigSpecs = completeJigSpecs({ jigSpecs: initSpecs });
+        const jigSpecs = completeJigSpecs({ initSpecs });
         const jigHolders = dowelJigHolders(jigSpecs)
 
         return {
