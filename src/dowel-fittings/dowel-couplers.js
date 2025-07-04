@@ -12,9 +12,6 @@
  */
 const dowelCouplers = ({ lib, swLib }) => {
 
-    const { rectangle } = lib.primitives;
-    const { lumber } = swLib.core.standards;
-
     const output = {
         jig: null,
     }
