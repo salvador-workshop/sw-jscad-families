@@ -255,6 +255,7 @@ const dowelJigs = ({ lib, swLib }) => {
             ...jigSpecDefaults,
             radius: dowelRadius,
             diam: dowelDiam,
+            pattern: 'rect2x2',
             dowelBundleHeight: dowelDiam * 2,
             dowelBundleWidth: dowelDiam * 2,
         }
@@ -272,6 +273,7 @@ const dowelJigs = ({ lib, swLib }) => {
             ...jigSpecDefaults,
             radius: dowelRadius,
             diam: dowelDiam,
+            pattern: 'rect3x2',
             dowelBundleHeight: dowelDiam * 2,
             dowelBundleWidth: dowelDiam * 3,
         }
