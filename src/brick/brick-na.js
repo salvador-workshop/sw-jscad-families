@@ -15,21 +15,21 @@ const brickNorthAmerica = ({ lib, swLib }) => {
     const brickNorAmSpecs = [
         {
             name: "nominal",
-            length: masonry.US_BRICK_LENGTH_NOM,
-            width: masonry.US_BRICK_WIDTH_NOM,
-            height: masonry.US_BRICK_HEIGHT_NOM,
+            length: masonry.brick.US_BRICK_LENGTH_NOM,
+            width: masonry.brick.US_BRICK_WIDTH_NOM,
+            height: masonry.brick.US_BRICK_HEIGHT_NOM,
         },
         {
             name: "actualStdJoint",
-            length: masonry.US_BRICK_LENGTH,
-            width: masonry.US_BRICK_WIDTH,
-            height: masonry.US_BRICK_HEIGHT,
+            length: masonry.brick.US_BRICK_LENGTH,
+            width: masonry.brick.US_BRICK_WIDTH,
+            height: masonry.brick.US_BRICK_HEIGHT,
         },
         {
             name: "actualWideJoint",
-            length: masonry.US_BRICK_LENGTH_LG_JOINT,
-            width: masonry.US_BRICK_WIDTH_LG_JOINT,
-            height: masonry.US_BRICK_HEIGHT_LG_JOINT,
+            length: masonry.brick.US_BRICK_LENGTH_LG_JOINT,
+            width: masonry.brick.US_BRICK_WIDTH_LG_JOINT,
+            height: masonry.brick.US_BRICK_HEIGHT_LG_JOINT,
         },
     ]
 
