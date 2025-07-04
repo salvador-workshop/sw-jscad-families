@@ -2,10 +2,10 @@
 
 /**
  * ...
- * @namespace families.trimAranea
+ * @namespace families.trim.aranea
  */
 
-const trimFamilyAranea = ({ lib, swLib }) => {
+const trimAranea = ({ lib, swLib }) => {
     const { polygon, square } = lib.primitives
     const { subtract, union } = lib.booleans
     const { rotate, translate, mirror, center } = lib.transforms
@@ -311,4 +311,4 @@ const trimFamilyAranea = ({ lib, swLib }) => {
     }
 }
 
-module.exports = { init: trimFamilyAranea }
+module.exports = { init: trimAranea }
