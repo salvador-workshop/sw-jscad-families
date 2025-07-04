@@ -12,6 +12,7 @@
  */
 const dowelCouplers = ({ lib, swLib }) => {
     const { maths } = swLib.core
+    const { superPrimitives } = swLib.utils;
 
     // TODO - pull this from `sw-jscad-std-specs` once it's in place.
     const swDefaults = {
@@ -23,32 +24,60 @@ const dowelCouplers = ({ lib, swLib }) => {
     }
 
     const couplerDefaultSpecs = {
+        tolerance: maths.inchesToMm(1 / 64),
         typThickness: swDefaults.panelThicknessSm,
         offsetWidth: swDefaults.panelThicknessXs,
     }
 
     const smallDowelCoupler = ({ dowelRadius }) => {
-        const smallSpecs = {
+        const couplerSpecs = {
             ...couplerDefaultSpecs,
             length: maths.inchesToMm(1)
         }
-        return null;
+
+        return superPrimitives.meshCylinder({
+            radius: dowelRadius + couplerSpecs.typThickness,
+            height: couplerSpecs.length,
+            thickness: couplerSpecs.typThickness,
+            meshRadius: swDefaults.panelThicknessXl,
+            meshMinWidth: couplerSpecs.typThickness,
+            meshSegments: 8,
+            edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
+        });
     };
 
     const mediumDowelCoupler = ({ dowelRadius }) => {
-        const mediumSpecs = {
+        const couplerSpecs = {
             ...couplerDefaultSpecs,
             length: maths.inchesToMm(2)
         }
-        return null;
+
+        return superPrimitives.meshCylinder({
+            radius: dowelRadius + couplerSpecs.typThickness,
+            height: couplerSpecs.length,
+            thickness: couplerSpecs.typThickness,
+            meshRadius: swDefaults.panelThicknessXl,
+            meshMinWidth: couplerSpecs.typThickness,
+            meshSegments: 8,
+            edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
+        });
     };
 
     const largeDowelCoupler = ({ dowelRadius }) => {
-        const largeSpecs = {
+        const couplerSpecs = {
             ...couplerDefaultSpecs,
             length: maths.inchesToMm(3)
         }
-        return null;
+
+        return superPrimitives.meshCylinder({
+            radius: dowelRadius + couplerSpecs.typThickness,
+            height: couplerSpecs.length,
+            thickness: couplerSpecs.typThickness,
+            meshRadius: swDefaults.panelThicknessXl,
+            meshMinWidth: couplerSpecs.typThickness,
+            meshSegments: 8,
+            edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
+        });
     };
 
     const output = {
