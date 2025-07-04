@@ -27,6 +27,7 @@ const dowelCouplers = ({ lib, swLib }) => {
         tolerance: maths.inchesToMm(1 / 64),
         typThickness: swDefaults.panelThicknessSm,
         offsetWidth: swDefaults.panelThicknessXs,
+        meshRadius: swDefaults.panelThicknessMd,
     }
 
     const smallDowelCoupler = ({ dowelRadius }) => {
@@ -39,7 +40,7 @@ const dowelCouplers = ({ lib, swLib }) => {
             radius: dowelRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
-            meshRadius: swDefaults.panelThicknessXl,
+            meshRadius: couplerSpecs.meshRadius,
             meshMinWidth: couplerSpecs.typThickness,
             meshSegments: 8,
             edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
@@ -56,7 +57,7 @@ const dowelCouplers = ({ lib, swLib }) => {
             radius: dowelRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
-            meshRadius: swDefaults.panelThicknessXl,
+            meshRadius: couplerSpecs.meshRadius,
             meshMinWidth: couplerSpecs.typThickness,
             meshSegments: 8,
             edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
@@ -73,7 +74,7 @@ const dowelCouplers = ({ lib, swLib }) => {
             radius: dowelRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
-            meshRadius: swDefaults.panelThicknessXl,
+            meshRadius: couplerSpecs.meshRadius,
             meshMinWidth: couplerSpecs.typThickness,
             meshSegments: 8,
             edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
