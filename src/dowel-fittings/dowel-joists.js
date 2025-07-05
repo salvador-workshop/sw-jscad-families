@@ -26,6 +26,8 @@ const dowelJoists = ({ lib, swLib }) => {
         thicknessTyp: swDefaults.PANEL_THICKNESS_MD,
         thicknessSm: swDefaults.PANEL_THICKNESS_SM,
         joistFrameLength: maths.inchesToMm(1.5),
+        jigSideMargin: maths.inchesToMm(1 / 8),
+        jigBaseMargin: maths.inchesToMm(1 / 4),
     }
 
     const completeJoistSpecs = (initSpecs) => {
@@ -112,6 +114,67 @@ const dowelJoists = ({ lib, swLib }) => {
         return outDowels
     }
 
+    const dowelJoistJigs = (joistSpecs) => {
+        const basePlate = superPrimitives.meshPanel({
+            size: [
+                2 * jigSpecs.sideMargin + joistSpecs.holderWidth,
+                2 * joistSpecs.sideMargin + joistSpecs.holderDepth,
+                joistSpecs.basePlateThickness,
+            ],
+            radius: joistSpecs.basePlateThickness,
+            segments: 8,
+            edgeMargin: joistSpecs.basePlateThickness,
+            patternMode: 'fill'
+        });
+
+        const jigHolderBlank = cuboid({
+            size: [
+                joistSpecs.holderWidth,
+                joistSpecs.holderDepth,
+                joistSpecs.holderHeight,
+            ]
+        });
+
+        const cutouts = {
+            upper: cuboid({
+                size: [
+                    jigSpecs.holderCutouts.upperWidth,
+                    jigSpecs.holderCutouts.depth,
+                    jigSpecs.holderCutouts.height,
+                ]
+            }),
+            lower: cuboid({
+                size: [
+                    jigSpecs.holderCutouts.lowerWidth,
+                    jigSpecs.holderCutouts.depth,
+                    jigSpecs.holderCutouts.height,
+                ]
+            }),
+        }
+
+        const upperJigHolder = subtract(
+            jigHolderBlank,
+            cutouts.upper
+        )
+        const lowerJigHolder = subtract(
+            jigHolderBlank,
+            cutouts.lower
+        )
+
+        const output = {
+            upperJig: union(
+                basePlate,
+                upperJigHolder
+            ),
+            lowerJig: union(
+                basePlate,
+                lowerJigHolder
+            )
+        }
+
+        return output
+    }
+
     /**
      * ...
      * @param {Object} opts 
@@ -147,11 +210,11 @@ const dowelJoists = ({ lib, swLib }) => {
 
         const joist = subtract(joistFrame, ...dowels)
 
-        const joistJig = null
+        const joistJigs = dowelJoistJigs(joistSpecs)
 
         return {
             joist,
-            joistJig,
+            ...joistJigs,
         };
     }
 
@@ -226,11 +289,11 @@ const dowelJoists = ({ lib, swLib }) => {
 
         const joist = subtract(joistFrame, ...dowels)
 
-        const joistJig = null
+        const joistJigs = dowelJoistJigs(joistSpecs)
 
         return {
             joist,
-            joistJig,
+            ...joistJigs,
         };
     }
 
@@ -279,11 +342,11 @@ const dowelJoists = ({ lib, swLib }) => {
 
         const joist = subtract(joistFrame, ...dowels)
 
-        const joistJig = null
+        const joistJigs = dowelJoistJigs(joistSpecs)
 
         return {
             joist,
-            joistJig,
+            ...joistJigs,
         };
     }
     /**
@@ -335,11 +398,11 @@ const dowelJoists = ({ lib, swLib }) => {
 
         const joist = subtract(joistFrame, ...dowels)
 
-        const joistJig = null
+        const joistJigs = dowelJoistJigs(joistSpecs)
 
         return {
             joist,
-            joistJig,
+            ...joistJigs,
         };
     }
 
