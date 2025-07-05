@@ -62,7 +62,10 @@ const dowelJoists = ({ lib, swLib }) => {
 
     const keyDowels = (joistSpecs) => {
         const outDowels = []
-        const baseDowel = cylinder({ radius: joistSpecs.radius, height: joistSpecs.joistFrameLength * 1.25 })
+        const baseDowel = cylinder({
+            radius: joistSpecs.radius + (joistSpecs.tolerance / 2),
+            height: joistSpecs.joistFrameLength * 1.25
+        })
 
         switch (joistSpecs.type) {
             case 'rect':
@@ -116,8 +119,8 @@ const dowelJoists = ({ lib, swLib }) => {
 
     const dowelJoistJigs = (joistSpecs) => {
         const dowelBoundaries = [
-            joistSpecs.dowelPosWidth + joistSpecs.diam,
-            joistSpecs.dowelPosHeight + joistSpecs.diam
+            joistSpecs.dowelPosWidth + joistSpecs.diam + joistSpecs.tolerance,
+            joistSpecs.dowelPosHeight + joistSpecs.diam + joistSpecs.tolerance
         ]
 
         const cutoutHeight = dowelBoundaries[1] * constants.PHI_INV

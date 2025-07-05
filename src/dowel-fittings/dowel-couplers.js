@@ -36,8 +36,9 @@ const dowelCouplers = ({ lib, swLib }) => {
             length: maths.inchesToMm(0.5)
         }
 
+        const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
         return superPrimitives.meshCylinder({
-            radius: dowelRadius + couplerSpecs.typThickness,
+            radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
             meshRadius: couplerSpecs.meshRadius,
@@ -53,8 +54,9 @@ const dowelCouplers = ({ lib, swLib }) => {
             length: maths.inchesToMm(1)
         }
 
+        const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
         return superPrimitives.meshCylinder({
-            radius: dowelRadius + couplerSpecs.typThickness,
+            radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
             meshRadius: couplerSpecs.meshRadius,
@@ -70,8 +72,9 @@ const dowelCouplers = ({ lib, swLib }) => {
             length: maths.inchesToMm(2)
         }
 
+        const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
         return superPrimitives.meshCylinder({
-            radius: dowelRadius + couplerSpecs.typThickness,
+            radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
             meshRadius: couplerSpecs.meshRadius,
@@ -87,8 +90,9 @@ const dowelCouplers = ({ lib, swLib }) => {
             length: maths.inchesToMm(3)
         }
 
+        const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
         return superPrimitives.meshCylinder({
-            radius: dowelRadius + couplerSpecs.typThickness,
+            radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
             meshRadius: couplerSpecs.meshRadius,

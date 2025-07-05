@@ -62,26 +62,26 @@ const dowelJigs = ({ lib, swLib }) => {
 
         switch (outSpecs.pattern) {
             case 'tri':
-                outSpecs.holderCutouts.upperWidth = initSpecs.diam
-                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam + initSpecs.tolerance
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2 + initSpecs.tolerance
                 break;
             case 'rect2x2':
-                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
-                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2 + initSpecs.tolerance
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2 + initSpecs.tolerance
                 break;
             case 'rect2x3':
-                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
-                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2 + initSpecs.tolerance
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2 + initSpecs.tolerance
                 break;
             case 'hex':
-                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2
-                outSpecs.holderCutouts.upperEdgeWidth = initSpecs.diam * 3
-                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2
-                outSpecs.holderCutouts.lowerEdgeWidth = initSpecs.diam * 3
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam * 2 + initSpecs.tolerance
+                outSpecs.holderCutouts.upperEdgeWidth = initSpecs.diam * 3 + initSpecs.tolerance
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam * 2 + initSpecs.tolerance
+                outSpecs.holderCutouts.lowerEdgeWidth = initSpecs.diam * 3 + initSpecs.tolerance
                 break;
             default:
-                outSpecs.holderCutouts.upperWidth = initSpecs.diam
-                outSpecs.holderCutouts.lowerWidth = initSpecs.diam
+                outSpecs.holderCutouts.upperWidth = initSpecs.diam + initSpecs.tolerance
+                outSpecs.holderCutouts.lowerWidth = initSpecs.diam + initSpecs.tolerance
         }
 
         return outSpecs
