@@ -26,7 +26,7 @@ const dowelJoists = ({ lib, swLib }) => {
         thicknessTyp: swDefaults.PANEL_THICKNESS_MD,
         thicknessSm: swDefaults.PANEL_THICKNESS_SM,
         joistFrameLength: maths.inchesToMm(1.5),
-        jigSideMargin: maths.inchesToMm(1 / 8),
+        jigSideMargin: maths.inchesToMm(3 / 16),
         jigBaseMargin: maths.inchesToMm(1 / 4),
     }
 
@@ -115,60 +115,85 @@ const dowelJoists = ({ lib, swLib }) => {
     }
 
     const dowelJoistJigs = (joistSpecs) => {
+        const dowelBoundaries = [
+            joistSpecs.dowelPosWidth + joistSpecs.diam,
+            joistSpecs.dowelPosHeight + joistSpecs.diam
+        ]
+
+        const cutoutHeight = dowelBoundaries[1] * constants.PHI_INV
+        const holderHeight = joistSpecs.jigBaseMargin + cutoutHeight
+
+        // defaults to 'i'
+        const cutoutLowerWidth = dowelBoundaries[0]
+        const cutoutUpperWidth = joistSpecs.type === 'tri' ? joistSpecs.diam : dowelBoundaries[0]
+
+        const holderWidth = 2 * joistSpecs.jigSideMargin + dowelBoundaries[0]
+        const holderWidthUpper = 2 * joistSpecs.jigSideMargin + cutoutUpperWidth
+        const holderDepth = holderWidth * constants.PHI_INV
+        const cutoutDepth = holderDepth * 1.5
+
         const basePlate = superPrimitives.meshPanel({
             size: [
-                2 * jigSpecs.sideMargin + joistSpecs.holderWidth,
-                2 * joistSpecs.sideMargin + joistSpecs.holderDepth,
-                joistSpecs.basePlateThickness,
+                2 * joistSpecs.jigSideMargin + holderWidth,
+                2 * joistSpecs.jigSideMargin + holderDepth,
+                joistSpecs.thicknessTyp,
             ],
-            radius: joistSpecs.basePlateThickness,
+            radius: joistSpecs.thicknessTyp,
             segments: 8,
-            edgeMargin: joistSpecs.basePlateThickness,
+            edgeMargin: joistSpecs.thicknessTyp,
             patternMode: 'fill'
         });
 
-        const jigHolderBlank = cuboid({
-            size: [
-                joistSpecs.holderWidth,
-                joistSpecs.holderDepth,
-                joistSpecs.holderHeight,
-            ]
-        });
+        const jigHolderBlanks = {
+            lower: cuboid({
+                size: [
+                    holderWidth,
+                    holderDepth,
+                    holderHeight,
+                ]
+            }), upper: cuboid({
+                size: [
+                    holderWidthUpper,
+                    holderDepth,
+                    holderHeight,
+                ]
+            })
+        };
 
         const cutouts = {
             upper: cuboid({
                 size: [
-                    jigSpecs.holderCutouts.upperWidth,
-                    jigSpecs.holderCutouts.depth,
-                    jigSpecs.holderCutouts.height,
+                    cutoutUpperWidth,
+                    cutoutDepth,
+                    cutoutHeight,
                 ]
             }),
             lower: cuboid({
                 size: [
-                    jigSpecs.holderCutouts.lowerWidth,
-                    jigSpecs.holderCutouts.depth,
-                    jigSpecs.holderCutouts.height,
+                    cutoutLowerWidth,
+                    cutoutDepth,
+                    cutoutHeight,
                 ]
             }),
         }
 
         const upperJigHolder = subtract(
-            jigHolderBlank,
-            cutouts.upper
+            align({ modes: ['center', 'center', 'min'] }, jigHolderBlanks.upper),
+            align({ modes: ['center', 'center', 'min'] }, cutouts.upper)
         )
         const lowerJigHolder = subtract(
-            jigHolderBlank,
-            cutouts.lower
+            align({ modes: ['center', 'center', 'max'] }, jigHolderBlanks.lower),
+            align({ modes: ['center', 'center', 'max'] }, cutouts.lower)
         )
 
         const output = {
             upperJig: union(
-                basePlate,
-                upperJigHolder
+                align({ modes: ['center', 'center', 'max'] }, basePlate),
+                align({ modes: ['center', 'center', 'max'] }, upperJigHolder)
             ),
             lowerJig: union(
-                basePlate,
-                lowerJigHolder
+                align({ modes: ['center', 'center', 'min'] }, basePlate),
+                align({ modes: ['center', 'center', 'min'] }, lowerJigHolder)
             )
         }
 
