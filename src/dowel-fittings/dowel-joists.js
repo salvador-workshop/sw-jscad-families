@@ -116,6 +116,7 @@ const dowelJoists = ({ lib, swLib }) => {
      * ...
      * @param {Object} opts 
      * @param {number} opts.dowelRadius 
+     * @param {number} opts.height
      * @returns ...
      */
     const iJoist = ({ dowelRadius, height }) => {
@@ -158,6 +159,7 @@ const dowelJoists = ({ lib, swLib }) => {
      * ...
      * @param {Object} opts 
      * @param {number} opts.dowelRadius 
+     * @param {number} opts.height
      * @returns ...
      */
     const triJoist = ({ dowelRadius, height }) => {
@@ -236,15 +238,15 @@ const dowelJoists = ({ lib, swLib }) => {
      * ...
      * @param {Object} opts 
      * @param {number} opts.dowelRadius 
-     * @param {number[]} opts.size - [height, width]
+     * @param {number} opts.height
      * @returns ...
      */
-    const rectJoist = ({ dowelRadius, size }) => {
+    const squareJoist = ({ dowelRadius, height }) => {
         const initSpecs = {
             ...defaultJoistSpecs,
             radius: dowelRadius,
-            height: size[0],
-            width: size[1],
+            height,
+            width: height,
             type: 'rect',
         }
         const joistSpecs = completeJoistSpecs(initSpecs)
@@ -284,10 +286,67 @@ const dowelJoists = ({ lib, swLib }) => {
             joistJig,
         };
     }
+    /**
+     * ...
+     * @param {Object} opts 
+     * @param {number} opts.dowelRadius 
+     * @param {number[]} opts.size - [height, width]
+     * @returns ...
+     */
+    const rectJoist = ({ dowelRadius, size }) => {
+        const initSpecs = {
+            ...defaultJoistSpecs,
+            radius: dowelRadius,
+            height: size[0],
+            width: size[1],
+            type: 'rect',
+        }
+        const joistSpecs = completeJoistSpecs(initSpecs)
+        const dowels = keyDowels(joistSpecs)
+
+        const joistCore = superPrimitives.meshCuboid({
+            size: [joistSpecs.frameWidth, joistSpecs.frameHeight, joistSpecs.joistFrameLength],
+            meshPanelThickness: joistSpecs.thicknessTyp,
+            radius: joistSpecs.thicknessTyp,
+            segments: 8,
+            edgeMargin: joistSpecs.thicknessTyp,
+            edgeInsets: [swDefaults.PANEL_THICKNESS_SM, swDefaults.PANEL_THICKNESS_SM],
+            openTop: true,
+            openBottom: true,
+        })
+
+        const frameHypot = Math.hypot(joistSpecs.frameWidth, joistSpecs.frameHeight)
+        const frameAngle = Math.atan2(joistSpecs.frameWidth, joistSpecs.frameHeight) - (TAU / 4)
+        console.log(frameAngle)
+        const crossPieceSize = [
+            frameHypot - joistSpecs.diam,
+            joistSpecs.joistFrameLength,
+            joistSpecs.thicknessSm,
+        ]
+        const crossPiece = rotate([TAU / 4, 0, -frameAngle], superPrimitives.meshPanel({
+            size: crossPieceSize,
+            radius: joistSpecs.thicknessTyp,
+            segments: 8,
+            edgeInsets: [swDefaults.PANEL_THICKNESS_XS, swDefaults.PANEL_THICKNESS_XS],
+            edgeOffsets: [swDefaults.PANEL_THICKNESS_XS, swDefaults.PANEL_THICKNESS_XS],
+        }))
+
+        let joistFrame = union(joistCore, crossPiece)
+
+        const joist = subtract(joistFrame, ...dowels)
+
+        const joistJig = null
+
+        return {
+            joist,
+            joistJig,
+        };
+    }
 
     const output = {
         iJoist,
         triJoist,
+        squareJoist,
         rectJoist,
     }
 
