@@ -46,6 +46,8 @@ const dowelJoists = ({ lib, swLib }) => {
             frameWidth = dowelPosWidth
         }
         newSpecs.dowelPosWidth = dowelPosWidth
+        newSpecs.frameHeight = frameHeight
+        newSpecs.frameWidth = frameWidth
 
         return newSpecs
     }
@@ -119,12 +121,12 @@ const dowelJoists = ({ lib, swLib }) => {
         const joistSpecs = completeJoistSpecs(initSpecs)
         const dowels = keyDowels(joistSpecs)
 
-        const offsetWidth = (maxWidth - typThickness) / 2
+        const offsetWidth = (joistSpecs.frameWidth - joistSpecs.typThickness) / 2
 
         const joistCore = superPrimitives.meshPanel({
             size: [
                 30,
-                joistSpecs.dowelPosHeight,
+                joistSpecs.frameHeight,
                 joistSpecs.typThickness,
             ],
             radius: joistSpecs.typThickness,
@@ -157,7 +159,42 @@ const dowelJoists = ({ lib, swLib }) => {
         const joistSpecs = completeJoistSpecs(initSpecs)
         const dowels = keyDowels(joistSpecs)
 
-        return null;
+        const maxPanelWidth = joistSpecs.typThickness * 2 + joistSpecs.diam
+        const offsetWidth = (maxPanelWidth - joistSpecs.typThickness) / 2
+
+        const joistCorePanel = superPrimitives.meshPanel({
+            size: [
+                joistSpecs.frameWidth,
+                30,
+                joistSpecs.typThickness,
+            ],
+            radius: joistSpecs.typThickness,
+            segments: 8,
+            edgeMargin: joistSpecs.typThickness,
+            edgeInsets: [offsetWidth, offsetWidth],
+            edgeOffsets: [offsetWidth, offsetWidth],
+        });
+
+        const framePanels = [
+            align(
+                { modes: ['center', 'center', 'center'], relativeTo: [0, 0, 0] },
+                rotate([0, 0, 0], joistCorePanel)
+            ),
+            align(
+                { modes: ['center', 'center', 'center'], relativeTo: [0, 0, 0] },
+                rotate([0, 0, 0], joistCorePanel)
+            ),
+            align(
+                { modes: ['center', 'center', 'center'], relativeTo: [0, 0, 0] },
+                rotate([0, 0, 0], joistCorePanel)
+            ),
+        ]
+
+        let joistFrame = union(...framePanels)
+
+        const joist = subtract(joistFrame, ...dowels)
+
+        return joist;
     }
 
     /**
@@ -178,7 +215,20 @@ const dowelJoists = ({ lib, swLib }) => {
         const joistSpecs = completeJoistSpecs(initSpecs)
         const dowels = keyDowels(joistSpecs)
 
-        return null;
+        const joistCore = superPrimitives.meshCuboid({
+            size: [joistSpecs.frameWidth, joistSpecs.frameHeight, 30],
+            meshPanelThickness: joistSpecs.typThickness,
+            radius: joistSpecs.typThickness,
+            segments: 8,
+            edgeInsets: [swDefaults.PANEL_THICKNESS_SM, swDefaults.PANEL_THICKNESS_SM]
+        })
+
+
+        let joistFrame = joistCore
+
+        const joist = subtract(joistFrame, ...dowels)
+
+        return joist;
     }
 
     const output = {
