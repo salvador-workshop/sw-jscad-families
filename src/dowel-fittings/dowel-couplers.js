@@ -30,6 +30,23 @@ const dowelCouplers = ({ lib, swLib }) => {
         meshRadius: swDefaults.panelThicknessMd,
     }
 
+    const extraSmallDowelCoupler = ({ dowelRadius }) => {
+        const couplerSpecs = {
+            ...couplerDefaultSpecs,
+            length: maths.inchesToMm(0.5)
+        }
+
+        return superPrimitives.meshCylinder({
+            radius: dowelRadius + couplerSpecs.typThickness,
+            height: couplerSpecs.length,
+            thickness: couplerSpecs.typThickness,
+            meshRadius: couplerSpecs.meshRadius,
+            meshMinWidth: couplerSpecs.typThickness,
+            meshSegments: 8,
+            edgeOffsets: [couplerSpecs.offsetWidth, couplerSpecs.offsetWidth],
+        });
+    };
+
     const smallDowelCoupler = ({ dowelRadius }) => {
         const couplerSpecs = {
             ...couplerDefaultSpecs,
@@ -82,6 +99,7 @@ const dowelCouplers = ({ lib, swLib }) => {
     };
 
     const output = {
+        extraSmallDowelCoupler,
         smallDowelCoupler,
         mediumDowelCoupler,
         largeDowelCoupler,
