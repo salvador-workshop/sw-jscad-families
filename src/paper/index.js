@@ -15,6 +15,7 @@ const init = ({ lib, swLib }) => {
 
     const { standards, maths, position } = swLib.core
 
+    // TODO - move to std-specs lib
     const camelCase = (str) => {
         // Using replace method with regEx
         return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
@@ -23,53 +24,53 @@ const init = ({ lib, swLib }) => {
     }
 
     const metric = {}
-    Object.values(standards.paper.metric).forEach(([key, val]) => {
-        const newKey = camelCase(key.replace('_', ' '))
+    Object.entries(standards.paper.metric).forEach(([key, val]) => {
+        const newKey = camelCase(key.replaceAll('_', ' ').toLocaleLowerCase())
         metric[newKey] = rectangle({ size: val })
     })
 
     const imperial = {}
     const ansi = {}
     const arch = {}
-    Object.values(standards.paper.imperial).forEach(([key, val]) => {
+    Object.entries(standards.paper.imperial).forEach(([key, val]) => {
         if (key === 'ansi') {
-            Object.values(val.ansi).forEach(([aKey, aVal]) => {
-                const ansiKey = camelCase(aKey.replace('_', ' '))
+            Object.entries(val).forEach(([aKey, aVal]) => {
+                const ansiKey = camelCase(aKey.replaceAll('_', ' ').toLocaleLowerCase())
                 ansi[ansiKey] = rectangle({ size: aVal })
             })
         } else if (key === 'arch') {
-            Object.values(val.arch).forEach(([arKey, arVal]) => {
-                const archKey = camelCase(arKey.replace('_', ' '))
-                metric[archKey] = rectangle({ size: arVal })
+            Object.entries(val).forEach(([arKey, arVal]) => {
+                const archKey = camelCase(arKey.replaceAll('_', ' ').toLocaleLowerCase())
+                arch[archKey] = rectangle({ size: arVal })
             })
         } else {
-            const newKey = camelCase(key.replace('_', ' '))
+            const newKey = camelCase(key.replaceAll('_', ' ').toLocaleLowerCase())
             imperial[newKey] = rectangle({ size: val })
         }
     })
 
     const cards = {}
-    Object.values(standards.paper.cards).forEach(([key, val]) => {
-        const newKey = camelCase(key.replace('_', ' '))
-        metric[newKey] = rectangle({ size: val })
+    Object.entries(standards.paper.cards).forEach(([key, val]) => {
+        const newKey = camelCase(key.replaceAll('_', ' ').toLocaleLowerCase())
+        cards[newKey] = rectangle({ size: val })
     })
 
     const bookmarks = {}
-    Object.values(standards.paper.bookmarks).forEach(([key, val]) => {
-        const newKey = camelCase(key.replace('_', ' '))
-        metric[newKey] = rectangle({ size: val })
+    Object.entries(standards.paper.bookmarks).forEach(([key, val]) => {
+        const newKey = camelCase(key.replaceAll('_', ' ').toLocaleLowerCase())
+        bookmarks[newKey] = rectangle({ size: val })
     })
 
     const poster = {}
-    Object.values(standards.paper.poster).forEach(([key, val]) => {
-        const newKey = camelCase(key.replace('_', ' '))
-        metric[newKey] = rectangle({ size: val })
+    Object.entries(standards.paper.poster).forEach(([key, val]) => {
+        const newKey = camelCase(key.replaceAll('_', ' ').toLocaleLowerCase())
+        poster[newKey] = rectangle({ size: val })
     })
 
     const photos = {}
-    Object.values(standards.paper.photos).forEach(([key, val]) => {
-        const newKey = camelCase(key.replace('_', ' '))
-        metric[newKey] = rectangle({ size: val })
+    Object.entries(standards.paper.photos).forEach(([key, val]) => {
+        const newKey = camelCase(key.replaceAll('_', ' ').toLocaleLowerCase())
+        photos[newKey] = rectangle({ size: val })
     })
 
     const paper = {
