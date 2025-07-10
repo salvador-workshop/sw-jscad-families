@@ -13,8 +13,6 @@ const init = ({ lib, swLib }) => {
     const { extrudeLinear, extrudeRotate } = lib.extrusions
     const { TAU } = lib.maths.constants
 
-    const { superPrimitives } = swLib.utils;
-    const { transform } = swLib.utils;
     const { standards, maths, position } = swLib.core
 
     const toothpickSpecs = {
@@ -44,8 +42,19 @@ const init = ({ lib, swLib }) => {
         }) => {
             const core2d = rectangle({ size: [pointLength * -2 + length, radius * 2] })
             const core2dCoords = position.getGeomCoords(core2d)
-            const point2d1 = align({ modes: ['max', 'center', 'center'], relativeTo: [core2dCoords.left, 0, 0] }, triangle())
-            const point2d2 = align({ modes: ['min', 'center', 'center'], relativeTo: [core2dCoords.right, 0, 0] }, triangle())
+
+            const pointTriangleSide = Math.hypot(radius, pointLength)
+            const pointAngle = Math.atan(radius / pointLength) * 2
+            const pointTriangle = triangle({ type: 'SSA', values: [radius * 2, pointTriangleSide, pointAngle] })
+
+            const point2d1 = align(
+                { modes: ['max', 'center', 'center'], relativeTo: [core2dCoords.left, 0, 0] },
+                rotate([0, 0, TAU / 4], pointTriangle)
+            )
+            const point2d2 = align(
+                { modes: ['min', 'center', 'center'], relativeTo: [core2dCoords.right, 0, 0] },
+                rotate([0, 0, TAU / -4], pointTriangle)
+            )
             const baseShape = rotate([0, 0, TAU / 4], union(core2d, point2d1, point2d2))
 
             return {
@@ -60,7 +69,16 @@ const init = ({ lib, swLib }) => {
         }) => {
             const core2d = rectangle({ size: [length - pointLength, radius * 2] })
             const core2dCoords = position.getGeomCoords(core2d)
-            const point2d = align({ modes: ['min', 'center', 'center'], relativeTo: [core2dCoords.right, 0, 0] }, triangle())
+
+            const pointTriangleSide = Math.hypot(radius, pointLength)
+            const pointAngle = Math.atan(radius / pointLength) * 2
+            const pointTriangle = triangle({ type: 'SSA', values: [radius * 2, pointTriangleSide, pointAngle] })
+
+            const point2d = align(
+                { modes: ['min', 'center', 'center'], relativeTo: [core2dCoords.right, 0, 0] },
+                rotate([0, 0, TAU / -4], pointTriangle)
+            )
+
             const baseShape = rotate([0, 0, TAU / 4], union(core2d, point2d))
 
             return {
