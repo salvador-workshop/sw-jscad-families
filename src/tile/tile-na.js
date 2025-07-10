@@ -10,6 +10,7 @@ const tileNorthAmerica = ({ lib, swLib }) => {
     const { cuboid } = lib.primitives
     const { maths } = swLib.core
 
+    // TODO - move to std-specs lib
     function camelCase(str) {
         // Using replace method with regEx
         return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {

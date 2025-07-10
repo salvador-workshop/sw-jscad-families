@@ -408,7 +408,6 @@ const dowelJoists = ({ lib, swLib }) => {
 
         const frameHypot = Math.hypot(joistSpecs.frameWidth, joistSpecs.frameHeight)
         const frameAngle = Math.atan2(joistSpecs.frameWidth, joistSpecs.frameHeight) - (TAU / 4)
-        console.log(frameAngle)
         const crossPieceSize = [
             frameHypot - joistSpecs.diam,
             joistSpecs.joistFrameLength,
