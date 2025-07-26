@@ -9,14 +9,7 @@ const tileNorthAmerica = ({ lib, swLib }) => {
 
     const { cuboid } = lib.primitives
     const { maths } = swLib.core
-
-    // TODO - move to std-specs lib
-    function camelCase(str) {
-        // Using replace method with regEx
-        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-            return index == 0 ? word.toLowerCase() : word.toUpperCase();
-        }).replace(/\s+/g, '');
-    }
+    const { extras } = swLib.utils
 
     const tileStandards = {
         TILE_THICKNESS_LG: maths.inchesToMm(9 / 32), // 7.14375 mm
@@ -46,7 +39,7 @@ const tileNorthAmerica = ({ lib, swLib }) => {
     Object.entries(thicknesses).forEach(([thKey, thVal], thIdx) => {
         Object.entries(sizes).forEach(([sKey, sVal], sIdx) => {
             const thicknessLabel = thKey === 'medium' ? '' : ` ${thKey}`;
-            const modelName = camelCase(`${sKey}${thicknessLabel}`)
+            const modelName = extras.camelCase(`${sKey}${thicknessLabel}`)
             const modelSize = [sVal, sVal, thVal]
 
             tileModels[modelName] = {

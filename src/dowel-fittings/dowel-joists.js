@@ -11,15 +11,16 @@
  * @returns ...
  */
 const dowelJoists = ({ lib, swLib }) => {
-    const { circle, cylinder, cuboid } = lib.primitives;
+    const { cylinder, cuboid } = lib.primitives;
     const { subtract, union } = lib.booleans;
-    const { align, rotate, mirror, translate } = lib.transforms;
+    const { align, rotate, translate } = lib.transforms;
     const { TAU } = lib.maths.constants
     const { measureCenter } = lib.measurements
 
     const { constants, maths } = swLib.core;
     const { swDefaults } = swLib.core.standards;
-    const { transform, superPrimitives } = swLib.utils;
+    const { transform } = swLib.utils;
+    const { mesh3d } = swLib.models.prefab;
 
     const defaultJoistSpecs = {
         tolerance: maths.inchesToMm(1 / 64),
@@ -135,7 +136,7 @@ const dowelJoists = ({ lib, swLib }) => {
         const holderDepth = holderWidth * constants.PHI_INV
         const cutoutDepth = holderDepth * 1.5
 
-        const basePlate = superPrimitives.meshPanel({
+        const basePlate = mesh3d.meshPanel({
             size: [
                 2 * joistSpecs.jigSideMargin + holderWidth,
                 2 * joistSpecs.jigSideMargin + holderDepth,
@@ -222,7 +223,7 @@ const dowelJoists = ({ lib, swLib }) => {
 
         const offsetWidth = (joistSpecs.frameWidth - joistSpecs.thicknessTyp) / 2
 
-        const joistCore = rotate([0, TAU / 4, 0], superPrimitives.meshPanel({
+        const joistCore = rotate([0, TAU / 4, 0], mesh3d.meshPanel({
             size: [
                 joistSpecs.joistFrameLength,
                 joistSpecs.frameHeight,
@@ -284,7 +285,7 @@ const dowelJoists = ({ lib, swLib }) => {
         const offsetWidth = (maxPanelWidth - joistSpecs.thicknessTyp) / 2
         const sizeFactor = (joistSpecs.thicknessTyp * -3 + joistSpecs.frameWidth) / joistSpecs.frameWidth
 
-        const joistCorePanel = superPrimitives.meshPanel({
+        const joistCorePanel = mesh3d.meshPanel({
             size: [
                 joistSpecs.frameWidth * sizeFactor,
                 joistSpecs.joistFrameLength,
@@ -343,7 +344,7 @@ const dowelJoists = ({ lib, swLib }) => {
         const joistSpecs = completeJoistSpecs(initSpecs)
         const dowels = keyDowels(joistSpecs)
 
-        const joistCore = superPrimitives.meshCuboid({
+        const joistCore = mesh3d.meshCuboid({
             size: [joistSpecs.frameWidth, joistSpecs.frameHeight, joistSpecs.joistFrameLength],
             meshPanelThickness: joistSpecs.thicknessTyp,
             radius: joistSpecs.thicknessTyp,
@@ -358,7 +359,7 @@ const dowelJoists = ({ lib, swLib }) => {
             joistSpecs.joistFrameLength,
             joistSpecs.thicknessSm,
         ]
-        const crossPiece = rotate([TAU / 4, 0, TAU / 8], superPrimitives.meshPanel({
+        const crossPiece = rotate([TAU / 4, 0, TAU / 8], mesh3d.meshPanel({
             size: crossPieceSize,
             radius: joistSpecs.thicknessTyp,
             segments: 8,
@@ -395,7 +396,7 @@ const dowelJoists = ({ lib, swLib }) => {
         const joistSpecs = completeJoistSpecs(initSpecs)
         const dowels = keyDowels(joistSpecs)
 
-        const joistCore = superPrimitives.meshCuboid({
+        const joistCore = mesh3d.meshCuboid({
             size: [joistSpecs.frameWidth, joistSpecs.frameHeight, joistSpecs.joistFrameLength],
             meshPanelThickness: joistSpecs.thicknessTyp,
             radius: joistSpecs.thicknessTyp,
@@ -413,7 +414,7 @@ const dowelJoists = ({ lib, swLib }) => {
             joistSpecs.joistFrameLength,
             joistSpecs.thicknessSm,
         ]
-        const crossPiece = rotate([TAU / 4, 0, -frameAngle], superPrimitives.meshPanel({
+        const crossPiece = rotate([TAU / 4, 0, -frameAngle], mesh3d.meshPanel({
             size: crossPieceSize,
             radius: joistSpecs.thicknessTyp,
             segments: 8,

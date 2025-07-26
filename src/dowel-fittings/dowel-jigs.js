@@ -11,11 +11,11 @@
  * @returns ...
  */
 const dowelJigs = ({ lib, swLib }) => {
-    const { rectangle, cuboid } = lib.primitives;
+    const { cuboid } = lib.primitives;
     const { union, subtract } = lib.booleans;
-    const { translate, align, mirror } = lib.transforms;
+    const { align } = lib.transforms;
 
-    const { superPrimitives } = swLib.utils;
+    const { mesh3d } = swLib.models.prefab;
     const { transform } = swLib.utils;
     const { maths, position } = swLib.core
     const { EQUI_TRIANGLE_HEIGHT_FACTOR, PHI_INV } = swLib.core.constants
@@ -88,7 +88,7 @@ const dowelJigs = ({ lib, swLib }) => {
     }
 
     const dowelJigBasePlate = (jigSpecs) => {
-        return superPrimitives.meshPanel({
+        return mesh3d.meshPanel({
             size: [
                 2 * jigSpecs.sideMargin + jigSpecs.holderWidth,
                 2 * jigSpecs.sideMargin + jigSpecs.holderDepth,

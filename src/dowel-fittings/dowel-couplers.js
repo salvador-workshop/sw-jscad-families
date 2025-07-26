@@ -12,7 +12,7 @@
  */
 const dowelCouplers = ({ lib, swLib }) => {
     const { maths } = swLib.core
-    const { superPrimitives } = swLib.utils;
+    const { mesh3d } = swLib.models.prefab;
 
     // TODO - pull this from `sw-jscad-std-specs` once it's in place.
     const swDefaults = {
@@ -37,7 +37,7 @@ const dowelCouplers = ({ lib, swLib }) => {
         }
 
         const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
-        return superPrimitives.meshCylinder({
+        return mesh3d.meshCylinder({
             radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
@@ -55,7 +55,7 @@ const dowelCouplers = ({ lib, swLib }) => {
         }
 
         const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
-        return superPrimitives.meshCylinder({
+        return mesh3d.meshCylinder({
             radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
@@ -73,7 +73,7 @@ const dowelCouplers = ({ lib, swLib }) => {
         }
 
         const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
-        return superPrimitives.meshCylinder({
+        return mesh3d.meshCylinder({
             radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
@@ -91,7 +91,7 @@ const dowelCouplers = ({ lib, swLib }) => {
         }
 
         const fittedRadius = dowelRadius + (couplerSpecs.tolerance / 2)
-        return superPrimitives.meshCylinder({
+        return mesh3d.meshCylinder({
             radius: fittedRadius + couplerSpecs.typThickness,
             height: couplerSpecs.length,
             thickness: couplerSpecs.typThickness,
